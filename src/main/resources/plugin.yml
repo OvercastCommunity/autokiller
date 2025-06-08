@@ -2,7 +2,7 @@ name: AutoKiller
 main: net.climaxmc.autokiller.AutoKiller
 version: 2.6
 authors: [Jonhan]
-softdepend: [ProtocolLib]
+softdepend: [ProtocolLib, ViaVersion]
 commands:
   autokiller:
     description: Main AutoKiller command.

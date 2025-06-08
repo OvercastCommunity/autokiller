@@ -38,6 +38,12 @@ consistent-clicks:
   # The sensitivity of the consistency check. Lower values are more sensitive. Recommended 18-35, default 21.
   sensitivity: 21
 
+rclick-speed:
+  vl-to-alert: 8
+  vl-to-ban: 30
+  enabled: true
+  # Uses max speed from regular click-speed check
+
 # Zero-Delay check options
 zero-delay:
   vl-to-alert: 14

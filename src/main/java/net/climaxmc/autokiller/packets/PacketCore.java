@@ -56,6 +56,11 @@ public class PacketCore {
                 if (player == null) {
                     return;
                 }
+                // Ignore non-block break packets
+                EnumWrappers.PlayerDigType digType = packet.getPlayerDigTypes().read(0);
+                if (digType.ordinal() > 3) {
+                    return;
+                }
                 Location blockLocation;
                 if (Bukkit.getServer().getVersion().contains("1.7")) {
                     blockLocation = new Location(player.getWorld(), packet.getIntegers().read(0),
@@ -66,7 +71,7 @@ public class PacketCore {
                             packet.getBlockPositionModifier().read(0).getY(),
                             packet.getBlockPositionModifier().read(0).getZ());
                 }
-                Bukkit.getServer().getPluginManager().callEvent(new PacketBlockDigEvent(player, blockLocation));
+                Bukkit.getServer().getPluginManager().callEvent(new PacketBlockDigEvent(player, digType, blockLocation));
             }
         });
 

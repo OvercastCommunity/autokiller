@@ -2,6 +2,7 @@ package net.climaxmc.autokiller;
 
 import net.climaxmc.autokiller.checks.ClickSpeedCheck;
 import net.climaxmc.autokiller.checks.ConsistencyCheck;
+import net.climaxmc.autokiller.checks.RightClickSpeedCheck;
 import net.climaxmc.autokiller.checks.ZeroDelayCheck;
 import net.climaxmc.autokiller.commands.AutoKillerCommand;
 import net.climaxmc.autokiller.events.AutoKillCheatEvent;
@@ -32,6 +33,7 @@ public class AutoKiller extends JavaPlugin {
     public ClickSpeedCheck speedCheck;
     public ConsistencyCheck consistencyCheck;
     public ZeroDelayCheck zeroDelayCheck;
+    public RightClickSpeedCheck rightClickSpeedCheck;
 
     public void onEnable() {
         instance = this;
@@ -42,10 +44,12 @@ public class AutoKiller extends JavaPlugin {
         speedCheck = new ClickSpeedCheck(this);
         consistencyCheck = new ConsistencyCheck(this);
         zeroDelayCheck = new ZeroDelayCheck(this);
+        rightClickSpeedCheck = new RightClickSpeedCheck(this);
 
         this.getServer().getPluginManager().registerEvents(speedCheck, this);
         this.getServer().getPluginManager().registerEvents(consistencyCheck, this);
         this.getServer().getPluginManager().registerEvents(zeroDelayCheck, this);
+        this.getServer().getPluginManager().registerEvents(rightClickSpeedCheck, this);
 
         this.getCommand("autokiller").setExecutor(new AutoKillerCommand(this));
     }
@@ -57,7 +61,7 @@ public class AutoKiller extends JavaPlugin {
             return;
         }
         
-    	String alert = cheat.equals("Click-Speed") ? config.getClickSpeedAlert() : config.getNormalAlert();
+    	String alert = cheat.endsWith("Click-Speed") ? config.getClickSpeedAlert() : config.getNormalAlert();
     	alert = alert.replace("%player%", player.getName())
     			.replace("%ping%", Utils.getPing(player) + "")
     			.replace("%cheat%", cheat)
