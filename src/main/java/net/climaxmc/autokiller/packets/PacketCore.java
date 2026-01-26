@@ -71,7 +71,7 @@ public class PacketCore {
                             packet.getBlockPositionModifier().read(0).getY(),
                             packet.getBlockPositionModifier().read(0).getZ());
                 }
-                Bukkit.getServer().getPluginManager().callEvent(new PacketBlockDigEvent(player, digType, blockLocation));
+                Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getServer().getPluginManager().callEvent(new PacketBlockDigEvent(player, digType, blockLocation)));
             }
         });
 

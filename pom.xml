@@ -8,18 +8,14 @@
 	<name>AutoKiller</name>
 
 	<repositories>
-		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
-		<repository>
-			<id>spigot-repo</id>
-			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-		</repository>
-		<repository>
-			<id>dmulloy2-repo</id>
-			<url>https://repo.dmulloy2.net/repository/public/</url>
-		</repository>
+        <repository>
+            <id>pgm-repo-snapshots</id>
+            <url>https://repo.pgm.fyi/snapshots</url>
+        </repository>
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
 		<repository>
 			<id>viaversion-repo</id>
 			<url>https://repo.viaversion.com</url>
@@ -27,19 +23,20 @@
 	</repositories>
 
 	<dependencies>
-		<!-- Spigot/Bukkit 1.8 -->
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
-			<version>1.8.8-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
+        <!-- Bukkit/Paper API -->
+        <dependency>
+            <groupId>dev.pgm.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.8_1.21.10-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
 
 		<!-- ProtocolLib -->
 		<dependency>
-			<groupId>com.comphenix.protocol</groupId>
+			<groupId>net.dmulloy2</groupId>
 			<artifactId>ProtocolLib</artifactId>
-			<version>4.6.0</version>
+			<version>5.4.0</version>
+            <scope>provided</scope>
 		</dependency>
 
 		<!-- ViaVersion -->
@@ -49,6 +46,14 @@
 			<version>[5.0.0,6.0.0)</version>
 			<scope>provided</scope>
 		</dependency>
+
+        <!-- BungeeCord API -->
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.21-R0.2</version>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -63,10 +68,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>3.14.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>21</source>
+					<target>21</target>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -9,17 +9,16 @@ import org.bukkit.entity.Player;
 
 public class AutoKillerCommand implements CommandExecutor {
 
-    private AutoKiller plugin;
+    private final AutoKiller plugin;
     public AutoKillerCommand(AutoKiller plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             return true;
         }
-        Player player = (Player) sender;
 
         if (player.hasPermission("autokiller.staff")) {
             if (args.length == 1) {
