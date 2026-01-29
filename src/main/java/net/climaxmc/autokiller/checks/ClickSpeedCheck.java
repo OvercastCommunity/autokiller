@@ -1,5 +1,6 @@
 package net.climaxmc.autokiller.checks;
 
+import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import net.climaxmc.autokiller.AutoKiller;
 import net.climaxmc.autokiller.packets.PacketBlockDigEvent;
@@ -92,6 +93,8 @@ public class ClickSpeedCheck extends Check implements Listener {
     }
 
     private boolean isExempt(Player player, PlayerInteractEvent event) {
+        if (!ViaChecker.isViaVersionInstalled()) return false;
+
         UUID uuid = player.getUniqueId();
 
         // Versions 1.15.2 and above create arm animations when throwing items
