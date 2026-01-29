@@ -1,7 +1,7 @@
-name: AutoKiller
-main: net.climaxmc.autokiller.AutoKiller
-version: 2.6
-authors: [Jonhan]
+name: ${project.name}
+main: ${project.bukkit.main}
+version: ${project.version} (git-${git.commit.id.abbrev})
+author: ${project.author}
 softdepend: [ProtocolLib, ViaVersion]
 commands:
   autokiller:

@@ -71,7 +71,7 @@ public class PacketCore {
                             packet.getBlockPositionModifier().read(0).getY(),
                             packet.getBlockPositionModifier().read(0).getZ());
                 }
-                Bukkit.getServer().getPluginManager().callEvent(new PacketBlockDigEvent(player, digType, blockLocation));
+                Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getServer().getPluginManager().callEvent(new PacketBlockDigEvent(player, digType, blockLocation)));
             }
         });
 
@@ -93,7 +93,19 @@ public class PacketCore {
                 event.setCancelled(false);
             }
         });
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY) {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_LOOK) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                event.setCancelled(false);
+            }
+        });
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.REL_ENTITY_MOVE) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                event.setCancelled(false);
+            }
+        });
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.REL_ENTITY_MOVE_LOOK) {
             @Override
             public void onPacketSending(PacketEvent event) {
                 event.setCancelled(false);

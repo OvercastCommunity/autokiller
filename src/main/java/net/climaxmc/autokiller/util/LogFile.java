@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 
 public class LogFile {
 
-    private AutoKiller plugin;
+    private final AutoKiller plugin;
 
     private File file;
 
