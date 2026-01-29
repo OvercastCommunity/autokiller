@@ -93,7 +93,19 @@ public class PacketCore {
                 event.setCancelled(false);
             }
         });
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY) {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_LOOK) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                event.setCancelled(false);
+            }
+        });
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.REL_ENTITY_MOVE) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                event.setCancelled(false);
+            }
+        });
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.REL_ENTITY_MOVE_LOOK) {
             @Override
             public void onPacketSending(PacketEvent event) {
                 event.setCancelled(false);

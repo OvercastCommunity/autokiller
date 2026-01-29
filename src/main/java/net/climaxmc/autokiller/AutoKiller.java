@@ -9,7 +9,6 @@ import net.climaxmc.autokiller.events.AutoKillCheatEvent;
 import net.climaxmc.autokiller.packets.PacketCore;
 import net.climaxmc.autokiller.util.Config;
 import net.climaxmc.autokiller.util.LogFile;
-import net.climaxmc.autokiller.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -57,13 +56,13 @@ public class AutoKiller extends JavaPlugin {
     public void logCheat(UUID uuid, String cheat, int vl) {
         Player player = Bukkit.getPlayer(uuid);
 
-        if (Utils.getPing(player) > config.getMaxPing()) {
+        if (getPing(player) > config.getMaxPing()) {
             return;
         }
         
     	String alert = cheat.endsWith("Click-Speed") ? config.getClickSpeedAlert() : config.getNormalAlert();
     	alert = alert.replace("%player%", player.getName())
-    			.replace("%ping%", Utils.getPing(player) + "")
+    			.replace("%ping%", getPing(player) + "")
     			.replace("%cheat%", cheat)
     			.replace("%vl%", vl + "");
     	alert = ChatColor.translateAlternateColorCodes('&', alert);
@@ -88,7 +87,7 @@ public class AutoKiller extends JavaPlugin {
         DateFormat df = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
         Date dateobj = new Date();
         String date = df.format(dateobj.getTime());
-        logFile.write(player, "[" + date + "] " + player.getName() + " [" + Utils.getPing(player) + "] failed check " + cheat + " VL:" + vl);
+        logFile.write(player, "[" + date + "] " + player.getName() + " [" + getPing(player) + "] failed check " + cheat + " VL:" + vl);
     }
 
     public Set<UUID> playersToBeBannedUnlessCanceledYay = new HashSet<>();
@@ -96,7 +95,7 @@ public class AutoKiller extends JavaPlugin {
     public void autoBanPlayer(UUID uuid, String reason) {
         if (!config.getBannable()) return;
         if (playersToBeBannedUnlessCanceledYay.contains(uuid)) return;
-        if (Utils.getPing(Bukkit.getPlayer(uuid)) > config.getMaxPing()) return;
+        if (getPing(Bukkit.getPlayer(uuid)) > config.getMaxPing()) return;
 
         playersToBeBannedUnlessCanceledYay.add(uuid);
 
@@ -122,5 +121,9 @@ public class AutoKiller extends JavaPlugin {
         }, 20L);
         this.getServer().getScheduler().runTaskLater(this,
                 () -> playersToBeBannedUnlessCanceledYay.clear(), 20L * 2);
+    }
+
+    private int getPing(Player player) {
+        return player.spigot().getPing();
     }
 }
