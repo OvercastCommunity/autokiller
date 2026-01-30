@@ -8,11 +8,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.rmi.server.ExportException;
 
 public class Config {
 
-    private AutoKiller plugin;
+    private final AutoKiller plugin;
 
     private File file;
     private FileConfiguration config;
