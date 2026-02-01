@@ -84,6 +84,8 @@ public class RightClickSpeedCheck extends Check implements Listener {
     }
 
     private boolean isExempt(Player player, PlayerInteractEvent event) {
+        if (!ViaChecker.isViaVersionInstalled()) return false;
+
         UUID uuid = player.getUniqueId();
 
         long now = System.currentTimeMillis();
