@@ -13,109 +13,142 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-/**
- * Packet method based on Janitor.
- */
-
+/** Packet method based on Janitor. */
 public class PacketCore {
-    public AutoKiller plugin;
+  public AutoKiller plugin;
 
-    public PacketCore(AutoKiller plugin) {
-        this.plugin = plugin;
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Client.USE_ENTITY) {
-            public void onPacketReceiving(PacketEvent event) {
+  public PacketCore(AutoKiller plugin) {
+    this.plugin = plugin;
+    ProtocolLibrary.getProtocolManager()
+        .addPacketListener(
+            new PacketAdapter(plugin, PacketType.Play.Client.USE_ENTITY) {
+              public void onPacketReceiving(PacketEvent event) {
                 PacketContainer packet = event.getPacket();
                 Player player = event.getPlayer();
                 if (player == null) {
-                    return;
+                  return;
                 }
                 EnumWrappers.EntityUseAction type = packet.getEntityUseActions().read(0);
                 int entityId = packet.getIntegers().read(0);
                 // Run in main thread
-                Bukkit.getScheduler().runTask(plugin, () -> {
-                    Entity entity = null;
-                    for (World worlds : Bukkit.getWorlds()) {
-                        for (Entity entities : worlds.getEntities()) {
-                            if (entities.getEntityId() == entityId) {
+                Bukkit.getScheduler()
+                    .runTask(
+                        plugin,
+                        () -> {
+                          Entity entity = null;
+                          for (World worlds : Bukkit.getWorlds()) {
+                            for (Entity entities : worlds.getEntities()) {
+                              if (entities.getEntityId() == entityId) {
                                 entity = entities;
+                              }
                             }
-                        }
-                    }
-                    if (entity == null) {
-                        entity = player;
-                    }
-                    Bukkit.getServer().getPluginManager().callEvent(new PacketUseEntityEvent(type, player, entity));
-                });
-            }
-        });
+                          }
+                          if (entity == null) {
+                            entity = player;
+                          }
+                          Bukkit.getServer()
+                              .getPluginManager()
+                              .callEvent(new PacketUseEntityEvent(type, player, entity));
+                        });
+              }
+            });
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Client.BLOCK_DIG) {
-            public void onPacketReceiving(PacketEvent event) {
+    ProtocolLibrary.getProtocolManager()
+        .addPacketListener(
+            new PacketAdapter(plugin, PacketType.Play.Client.BLOCK_DIG) {
+              public void onPacketReceiving(PacketEvent event) {
                 PacketContainer packet = event.getPacket();
                 Player player = event.getPlayer();
                 if (player == null) {
-                    return;
+                  return;
                 }
                 // Ignore non-block break packets
                 EnumWrappers.PlayerDigType digType = packet.getPlayerDigTypes().read(0);
                 if (digType.ordinal() > 3) {
-                    return;
+                  return;
                 }
                 Location blockLocation;
                 if (Bukkit.getServer().getVersion().contains("1.7")) {
-                    blockLocation = new Location(player.getWorld(), packet.getIntegers().read(0),
-                            packet.getIntegers().read(1),
-                            packet.getIntegers().read(2));
+                  blockLocation =
+                      new Location(
+                          player.getWorld(),
+                          packet.getIntegers().read(0),
+                          packet.getIntegers().read(1),
+                          packet.getIntegers().read(2));
                 } else {
-                    blockLocation = new Location(player.getWorld(), packet.getBlockPositionModifier().read(0).getX(),
-                            packet.getBlockPositionModifier().read(0).getY(),
-                            packet.getBlockPositionModifier().read(0).getZ());
+                  blockLocation =
+                      new Location(
+                          player.getWorld(),
+                          packet.getBlockPositionModifier().read(0).getX(),
+                          packet.getBlockPositionModifier().read(0).getY(),
+                          packet.getBlockPositionModifier().read(0).getZ());
                 }
-                Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getServer().getPluginManager().callEvent(new PacketBlockDigEvent(player, digType, blockLocation)));
-            }
-        });
+                Bukkit.getScheduler()
+                    .runTask(
+                        plugin,
+                        () ->
+                            Bukkit.getServer()
+                                .getPluginManager()
+                                .callEvent(
+                                    new PacketBlockDigEvent(player, digType, blockLocation)));
+              }
+            });
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_STATUS) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
+    ProtocolLibrary.getProtocolManager()
+        .addPacketListener(
+            new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_STATUS) {
+              @Override
+              public void onPacketSending(PacketEvent event) {
                 event.setCancelled(false);
-            }
-        });
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_VELOCITY) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
+              }
+            });
+    ProtocolLibrary.getProtocolManager()
+        .addPacketListener(
+            new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_VELOCITY) {
+              @Override
+              public void onPacketSending(PacketEvent event) {
                 event.setCancelled(false);
-            }
-        });
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_EFFECT) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
+              }
+            });
+    ProtocolLibrary.getProtocolManager()
+        .addPacketListener(
+            new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_EFFECT) {
+              @Override
+              public void onPacketSending(PacketEvent event) {
                 event.setCancelled(false);
-            }
-        });
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_LOOK) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
+              }
+            });
+    ProtocolLibrary.getProtocolManager()
+        .addPacketListener(
+            new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_LOOK) {
+              @Override
+              public void onPacketSending(PacketEvent event) {
                 event.setCancelled(false);
-            }
-        });
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.REL_ENTITY_MOVE) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
+              }
+            });
+    ProtocolLibrary.getProtocolManager()
+        .addPacketListener(
+            new PacketAdapter(plugin, PacketType.Play.Server.REL_ENTITY_MOVE) {
+              @Override
+              public void onPacketSending(PacketEvent event) {
                 event.setCancelled(false);
-            }
-        });
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.REL_ENTITY_MOVE_LOOK) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
+              }
+            });
+    ProtocolLibrary.getProtocolManager()
+        .addPacketListener(
+            new PacketAdapter(plugin, PacketType.Play.Server.REL_ENTITY_MOVE_LOOK) {
+              @Override
+              public void onPacketSending(PacketEvent event) {
                 event.setCancelled(false);
-            }
-        });
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_METADATA) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
+              }
+            });
+    ProtocolLibrary.getProtocolManager()
+        .addPacketListener(
+            new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_METADATA) {
+              @Override
+              public void onPacketSending(PacketEvent event) {
                 event.setCancelled(false);
-            }
-        });
-    }
+              }
+            });
+  }
 }
