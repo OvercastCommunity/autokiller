@@ -1,6 +1,7 @@
 name: ${project.name}
 main: ${project.bukkit.main}
 version: ${project.version} (git-${git.commit.id.abbrev})
+api-version: ${project.paper.api}
 author: ${project.author}
 softdepend: [ProtocolLib, ViaVersion]
 commands:

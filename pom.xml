@@ -11,6 +11,7 @@
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.bukkit.main>net.climaxmc.autokiller.AutoKiller</project.bukkit.main>
+        <project.paper.api>1.21.11</project.paper.api>
         <project.author>Jonhan</project.author>
     </properties>
 
@@ -34,7 +35,7 @@
         <dependency>
             <groupId>dev.pgm.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.8_1.21.10-SNAPSHOT</version>
+            <version>1.8_1.21.11-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -77,6 +78,18 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.14.1</version>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <paperweight-mappings-namespace>mojang</paperweight-mappings-namespace>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
