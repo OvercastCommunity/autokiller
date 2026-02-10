@@ -77,6 +77,8 @@ public class ClickSpeedCheck extends Check implements Listener {
               () -> {
                 Integer currClicks = clicks.get(uuid);
 
+                if (currClicks == null) return;
+
                 if (currClicks >= plugin.config.getMaxSpeed()) {
                   if (!isEnabled()) {
                     resetVL(player.getUniqueId());
