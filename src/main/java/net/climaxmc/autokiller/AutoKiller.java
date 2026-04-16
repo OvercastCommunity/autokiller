@@ -1,5 +1,8 @@
 package net.climaxmc.autokiller;
 
+import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.event.PacketListenerCommon;
+import com.github.retrooper.packetevents.event.PacketListenerPriority;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,6 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AutoKiller extends JavaPlugin {
 
   public static AutoKiller instance;
+  private PacketListenerCommon packetListener;
 
   public Config config;
 
@@ -38,7 +42,10 @@ public class AutoKiller extends JavaPlugin {
 
     config = new Config(this);
 
-    new PacketCore(this);
+    packetListener =
+        PacketEvents.getAPI()
+            .getEventManager()
+            .registerListener(new PacketCore(this), PacketListenerPriority.NORMAL);
     speedCheck = new ClickSpeedCheck(this);
     consistencyCheck = new ConsistencyCheck(this);
     zeroDelayCheck = new ZeroDelayCheck(this);
@@ -50,6 +57,14 @@ public class AutoKiller extends JavaPlugin {
     this.getServer().getPluginManager().registerEvents(rightClickSpeedCheck, this);
 
     this.getCommand("autokiller").setExecutor(new AutoKillerCommand(this));
+  }
+
+  @Override
+  public void onDisable() {
+    if (packetListener != null) {
+      PacketEvents.getAPI().getEventManager().unregisterListener(packetListener);
+      packetListener = null;
+    }
   }
 
   public void logCheat(UUID uuid, String cheat, int vl) {

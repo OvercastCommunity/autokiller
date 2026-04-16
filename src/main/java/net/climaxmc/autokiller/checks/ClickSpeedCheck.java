@@ -140,11 +140,11 @@ public class ClickSpeedCheck extends Check implements Listener {
     if (!event.getPlayer().isSneaking() || event.getPlayer().getLocation().getPitch() < 0) return;
 
     switch (event.getDigType()) {
-      case START_DESTROY_BLOCK:
+      case START_DIGGING:
         breakingExempt.add(event.getPlayer().getUniqueId());
         break;
-      case STOP_DESTROY_BLOCK:
-      case ABORT_DESTROY_BLOCK:
+      case FINISHED_DIGGING:
+      case CANCELLED_DIGGING:
         breakingExempt.remove(event.getPlayer().getUniqueId());
         break;
       default:

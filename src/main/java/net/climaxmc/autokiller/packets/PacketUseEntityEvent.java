@@ -1,6 +1,6 @@
 package net.climaxmc.autokiller.packets;
 
-import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -8,19 +8,19 @@ import org.bukkit.event.HandlerList;
 
 public class PacketUseEntityEvent extends Event {
 
-  private final EnumWrappers.EntityUseAction action;
+  private final WrapperPlayClientInteractEntity.InteractAction action;
   private final Player attacker;
   private final Entity attacked;
   private static final HandlerList handlers = new HandlerList();
 
   public PacketUseEntityEvent(
-      EnumWrappers.EntityUseAction action, Player attacker, Entity attacked) {
+      WrapperPlayClientInteractEntity.InteractAction action, Player attacker, Entity attacked) {
     this.action = action;
     this.attacker = attacker;
     this.attacked = attacked;
   }
 
-  public EnumWrappers.EntityUseAction getAction() {
+  public WrapperPlayClientInteractEntity.InteractAction getAction() {
     return this.action;
   }
 

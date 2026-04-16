@@ -1,6 +1,6 @@
 package net.climaxmc.autokiller.checks;
 
-import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -54,7 +54,7 @@ public class ConsistencyCheck extends Check implements Listener {
     UUID player = event.getAttacker().getUniqueId();
     UUID target = event.getAttacked().getUniqueId();
 
-    if (event.getAction() == EnumWrappers.EntityUseAction.ATTACK) {
+    if (event.getAction() == WrapperPlayClientInteractEntity.InteractAction.ATTACK) {
       if (Objects.equals(lastTargetYaw.get(target), event.getAttacked().getLocation().getYaw())) {
         return;
       }

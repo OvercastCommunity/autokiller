@@ -3,7 +3,8 @@ main: ${project.bukkit.main}
 version: ${project.version} (git-${git.commit.id.abbrev})
 api-version: ${project.paper.api}
 author: ${project.author}
-softdepend: [ProtocolLib, ViaVersion]
+depend: [packetevents]
+softdepend: [ViaVersion]
 commands:
   autokiller:
     description: Main AutoKiller command.
